@@ -4,7 +4,7 @@
     <ul>
       <% @categories.each do |category| %>
         <%= tag.p class: 'my-1' do %>
-          <%= link_to "#{category.name} (#{category.products.count})", category_products_path(category) %>
+          <%= link_to "#{category.name} (#{category.products.count})", category_products_path(category), class: 'category-link', data: { categoryid: category.id } %>
         <% end %>
       <% end %>
     </ul>
