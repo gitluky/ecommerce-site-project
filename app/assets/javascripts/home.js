@@ -3,6 +3,7 @@ $(function() {
 });
 
 function attachCategoryListeners() {
+  const Product = createProduct();
   const categoryLinks = $('.category-link');
   categoryLinks.each((index, categoryLink) => {
     const categoryId = $(categoryLink).data('categoryid')
@@ -10,7 +11,12 @@ function attachCategoryListeners() {
       event.preventDefault();
       fetch('/categories/' + categoryId + '/products')
         .then(resp => resp.json())
-        .then(json => console.log(json))
+        .then(json => {
+          json.data.forEach((dataObj) => {
+            const newProduct = new Product(dataObj.attributes);
+            console.log(newProduct);
+          });
+        })
     });
   });
 }
