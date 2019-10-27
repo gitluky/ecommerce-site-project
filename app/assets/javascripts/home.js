@@ -14,7 +14,7 @@ function attachCategoryListeners() {
         .then(json => {
           json.data.forEach((dataObj) => {
             const newProduct = new Product(dataObj.attributes);
-            console.log(newProduct);
+            console.log(json);
           });
         })
     });

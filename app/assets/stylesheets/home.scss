@@ -1,3 +1,30 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 4fr 1fr 1fr;
+  grid-gap: 1em;
+  grid-template-areas:
+    "categories products products products products"
+    "whitespace whitespace whitespace whitespace whitespace"
+    "footer footer footer footer footer";
+}
+
+#categories {
+  grid-area: categories;
+  text-align: right;
+
+}
+
+
+@media screen and (max-width: 1080px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "products products"
+      "footer footer";
+  }
+
+  #categories {
+    display: none;
+  }
+}
