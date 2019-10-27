@@ -34,6 +34,7 @@ gem 'simple_form'
 gem 'jquery-rails'
 gem 'faker'
 gem 'fast_jsonapi'
+gem "mini_magick"
 gem 'pry'
 
 group :development, :test do

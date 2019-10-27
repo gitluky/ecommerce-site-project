@@ -7,12 +7,14 @@ function createProduct() {
       }
     }
 
-    generateHTML() {
+    generateProductCellHtml() {
       let html = `<div class="product-card">
+                    <img src="${this.thumbnails[0]}" class="product-image">
                     <h4>${this.name}</h4>
                     <p>${this.price}</p>
                   </div>
                   `
+      return html;
     }
 
   }

@@ -6,12 +6,10 @@ class Product < ApplicationRecord
   has_many :categories, through: :product_categories, dependent: :destroy
   has_many_attached :product_images
 
-  def images
-    i = 0
-    image_urls = {}
+  def thumbnails
+    image_urls = []
     self.product_images.each do |image|
-      image_urls[i] = rails_blob_path(image)
-      i+=1
+      image_urls << rails_representation_url(image.variant(resize: '300x300').processed)
     end
     image_urls
   end
