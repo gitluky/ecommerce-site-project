@@ -23,3 +23,8 @@ Category.all.each do |category|
     end
   end
 end
+
+hot_deals = Category.create(name: 'Hot Deals')
+20.times do
+  hot_deals.products << Product.find(rand(0..Product.count))
+end

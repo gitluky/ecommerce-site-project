@@ -12,10 +12,12 @@ function attachCategoryListeners() {
       fetch('/categories/' + categoryId + '/products')
         .then(resp => resp.json())
         .then(json => {
+          $('#product-container').empty();
           json.data.forEach((dataObj) => {
             const newProduct = new Product(dataObj.attributes);
             const html = newProduct.generateProductCellHtml();
             $('#product-container').append(html);
+            // $('.category-link[data-categoryid="' + categoryId + '"]').css('font-weight', 'bold')
           });
         })
     });
