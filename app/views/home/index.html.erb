@@ -1,10 +1,7 @@
 <div class="grid-container">
 
   <div id="categories">
-    <ul
-      <%= tag.p class: 'my-1' do %>
-        <%= link_to "#{@hot_deals.name} (#{@hot_deals.products.count})", category_products_path(@hot_deals), class: 'category-link text-secondary', data: { categoryid: @hot_deals.id } %>
-      <% end %>
+    <ul>
       <% @categories.each do |category| %>
         <%= tag.p class: 'my-1' do %>
           <%= link_to "#{category.name} (#{category.products.count})", category_products_path(category), class: 'category-link text-secondary', data: { categoryid: category.id } %>
@@ -13,8 +10,8 @@
     </ul>
   </div>
 
-  <div id="product-container">
-
+  <div id="product-container" data-categoryid="<%= @hot_deals.id %>">
+    
   </div>
 
 </div>
