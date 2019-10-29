@@ -1,2 +1,2 @@
-module LineItemHelper
+module LineItemsHelper
 end

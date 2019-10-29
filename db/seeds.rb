@@ -3,6 +3,7 @@ require 'faker'
 Category.destroy_all
 Product.destroy_all
 
+#create categories
 20.times do
   category_name = Faker::Commerce.department(max: 1)
   if !Category.find_by(name: category_name)
@@ -10,6 +11,7 @@ Product.destroy_all
   end
 end
 
+#create products under each category
 Category.all.each do |category|
   num = rand(10..20)
   num.times do
@@ -24,7 +26,15 @@ Category.all.each do |category|
   end
 end
 
+# create Hot Deals category
 hot_deals = Category.create(name: 'Hot Deals')
 20.times do
   hot_deals.products << Product.find(rand(0..Product.count))
+end
+
+#create a user, shopping cart and some line items
+user1 = User.create(email: 'asdf@gmail.com', password: "password")
+cart1 = Cart.create(user_id: 1)
+10.times do
+  cart1.line_items.create(product_id: rand(0..50), cart: cart1)
 end
