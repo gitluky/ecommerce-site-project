@@ -4,6 +4,8 @@ class Product < ApplicationRecord
   validates :name, presence: true
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories, dependent: :destroy
+  has_many :line_items
+  has_many :carts, through: :line_items
   has_many_attached :product_images
 
   def thumbnails

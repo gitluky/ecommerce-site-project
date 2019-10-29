@@ -4,4 +4,8 @@ class ProductsController < ApplicationController
     @products = @category.products.where('stock > 0')
     render json: ProductSerializer.new(@products)
   end
+
+  def show
+    @product = Product.find_by(id: params[:id])
+  end
 end

@@ -1,0 +1,6 @@
+<% @product.product_images.each do %>
+  <%= image_tag url_for(product_image) %>
+<% end %>
+Name: <%= @product.name %>
+Description: <%= @product.description %>
+Price: <%= @product.price %>

@@ -11,12 +11,16 @@
   </head>
 
   <body>
-    <div class="container-fluid">
-      <div class="w-100">
-        <%= image_tag('sale_banner.jpg', class: 'w-100 mb-2') %>
+    <% if current_page?(controller: '/home', action: 'index') %>
+      <div class="container-fluid">
+        <div class="w-100">
+          <%= image_tag('sale_banner.jpg', class: 'w-100 mb-2') %>
+        </div>
       </div>
-    </div>
+    <% end %>
+    
     <%= render partial: 'layouts/navbar' %>
+
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>

@@ -1,0 +1,11 @@
+<% @cart.line_items.each do |line_item| %>
+  <%= line_item.product %>
+  <%= line_item.product.price %>
+  <%= form_for line_item do |f| %>
+    <%= f.input :quantity %>
+    <%= f.submit 'Update' %>
+  <% end %>
+
+<%= tag.div id:'item_total' %>
+
+<% end %>
