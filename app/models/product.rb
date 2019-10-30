@@ -16,4 +16,8 @@ class Product < ApplicationRecord
     image_urls
   end
 
+  def item_price
+    "$#{'%.2f' % self.price}"
+  end
+
 end

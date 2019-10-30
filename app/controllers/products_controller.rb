@@ -7,5 +7,6 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find_by(id: params[:id])
+    @line_item = LineItem.new(product: @product)
   end
 end

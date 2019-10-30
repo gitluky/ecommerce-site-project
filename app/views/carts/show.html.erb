@@ -1,11 +1,11 @@
 <% @cart.line_items.each do |line_item| %>
-  <%= line_item.product %>
-  <%= line_item.product.price %>
+  <%= line_item.product.name %>
+  <%= line_item.product.item_price %> x <%= line_item.quantity %> = <%= line_item.item_total %>
   <%= form_for line_item do |f| %>
-    <%= f.input :quantity %>
-    <%= f.submit 'Update' %>
+    <%= f.select(:quantity, options_for_select(0..line_item.product.stock, selected: line_item.quantity)) %>
+    <%= f.submit 'Add to Cart' %>
   <% end %>
 
-<%= tag.div id:'item_total' %>
+  <%= tag.div id:'item_total' %>
 
 <% end %>

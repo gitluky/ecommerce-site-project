@@ -1,4 +1,4 @@
-$(function() {
+$('.home.index').ready(function() {
   displayProducts();
   attachCategoryListeners();
 });
@@ -13,7 +13,7 @@ function displayProducts() {
     .then(json => {
       $('#product-container').empty();
       json.data.forEach((dataObj) => {
-        const newProduct = new Product(dataObj.attributes);
+        const newProduct = new Product(dataObj);
         const html = newProduct.generateProductCellHtml();
         $('#product-container').append(html);
         $('#product-container').attr('data-categoryid', categoryId);
@@ -36,4 +36,10 @@ function attachCategoryListeners() {
 function boldCategory(categoryId) {
   $('.category-link').css('font-weight', 'normal');
   $('.category-link[data-categoryid="' + categoryId + '"]').css('font-weight', 'bold');
+}
+
+function attachProductListeners() {
+  const productCards = $('.product-card')
+
+
 }

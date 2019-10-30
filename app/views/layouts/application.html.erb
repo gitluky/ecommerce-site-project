@@ -10,7 +10,7 @@
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
+  <body class="<%= controller_name %> <%= action_name %>">
     <% if current_page?(controller: '/home', action: 'index') %>
       <div class="container-fluid">
         <div class="w-100">
@@ -18,7 +18,7 @@
         </div>
       </div>
     <% end %>
-    
+
     <%= render partial: 'layouts/navbar' %>
 
 

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :categories do
     resources :products
   end
+  resources :products
   devise_for :users
 end
