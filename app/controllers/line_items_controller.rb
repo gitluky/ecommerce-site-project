@@ -6,7 +6,7 @@ class LineItemsController < ApplicationController
       session[:cart_id] = new_cart.id
     end
     @line_item = LineItem.update_or_create_to_cart(current_cart, line_item_params)
-    redirect_to cart_path(current_cart)
+    render json: CartSerializer.new(current_cart), status: 200
   end
 
 

@@ -8,14 +8,11 @@ function createProduct() {
     }
 
     generateProductCellHtml() {
-      let html = `
-                    <a href="products/${this.id}" class="product-card" data-productid="${this.id}">
-                      <img src="${this.attributes.thumbnails[0]}" class="product-image">
-                      <h4>${this.attributes.name}</h4>
-                      <p>${this.attributes.item_price}</p>
-                    </a>
-
-                  `
+      let html = `<a href="products/${this.id}" class="product-card" data-productid="${this.id}">
+                    <img src="${this.attributes.thumbnails[0]}" class="product-image">
+                    <h4>${this.attributes.name}</h4>
+                    <p>${this.attributes['formatted_price']}</p>
+                  </a>`
       return html;
     }
 

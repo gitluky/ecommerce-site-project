@@ -24,7 +24,7 @@
     <span>
       <% if user_signed_in? %>
           <%= link_to 'Log Out', destroy_user_session_path, method: 'delete', class: 'ml-3 text-light' %>
-          <%= link_to "Cart #{current_cart.line_items.count}", cart_path(current_cart) if current_cart %>
+          <%= link_to "Cart #{current_cart.item_count}", cart_path(current_cart), id: 'cart-link' if current_cart %>
         <% else %>
           <%= link_to 'Login', new_user_session_path, class: 'ml-3 text-light' %>
           <%= link_to 'Sign Up', new_user_registration_path, class: 'ml-3 text-light' %>

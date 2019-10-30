@@ -10,13 +10,13 @@
   <div class="product-details-card">
     Name: <%= @product.name %>
     Description: <%= @product.description %>
-    Price: <%= @product.price %>
+    Price: <%= @product.formatted_price %>
   </div>
 
   <%= form_for @line_item, class: 'add-to-cart-form' do |f| %>
     <%= f.hidden_field :product_id, value: @product.id %>
     <%= f.select(:quantity, options_for_select(0..@product.stock, :selected => 0)) %>
-    <%= f.submit 'Add to Cart' %>
+    <%= f.submit 'Add to Cart', data: { disable_with: false }, id: 'add_to_cart' %>
   <% end %>
 
 </div>

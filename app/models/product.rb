@@ -16,7 +16,7 @@ class Product < ApplicationRecord
     image_urls
   end
 
-  def item_price
+  def formatted_price
     "$#{'%.2f' % self.price}"
   end
 

@@ -6,7 +6,6 @@ class LineItem < ApplicationRecord
     cart = Cart.find_by(id: cart)
     if product_found = cart.products.find_by(id: params[:product_id])
       line_item = cart.line_items.find_by(product_id: product_found.id)
-      debugger;
       new_quantity = line_item.quantity+=params[:quantity].to_i
       line_item.update(quantity: new_quantity )
     else
