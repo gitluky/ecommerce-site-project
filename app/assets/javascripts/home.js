@@ -1,7 +1,11 @@
-$('.home.index').ready(function() {
-  displayProducts();
-  attachCategoryListeners();
+$( document ).on('turbolinks:load', function() {
+  if ($('body').data('controller') == 'home' && $('body').data('action') == 'index') {
+    displayProducts();
+    attachCategoryListeners();
+  }
 });
+
+
 
 
 function displayProducts() {

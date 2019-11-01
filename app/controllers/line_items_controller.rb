@@ -9,6 +9,12 @@ class LineItemsController < ApplicationController
     render json: CartSerializer.new(current_cart), status: 200
   end
 
+  def update
+    @line_item = LineItem.find_by(id:params[:id])
+    @line_item.update(line_item_params)
+    render json: CartSerializer.new(current_cart), status: 200
+  end
+
 
   private
 

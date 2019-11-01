@@ -1,11 +1,16 @@
-<% @cart.line_items.each do |line_item| %>
-  <%= line_item.product.name %>
-  <%= line_item.product.formatted_price %> x <%= line_item.quantity %> = <%= line_item.item_total %>
-  <%= form_for line_item do |f| %>
-    <%= f.select(:quantity, options_for_select(0..line_item.product.stock, selected: line_item.quantity)) %>
-    <%= f.submit 'Add to Cart' %>
+<div id="line-items-container" >
+  <% @cart.line_items.each do |line_item| %>
+    <div class="line-item-card" data-lineitemid="<%= line_item.id %>" >
+      <%= line_item.product.name %>
+      <span class='product-price' data-lineitemid="<%= line_item.id %>"><%= line_item.product.formatted_price %></span> x
+      <span class='line-item-quantity' data-lineitemid="<%= line_item.id %>"><%= line_item.quantity %></span> =
+      <span class='line-item-total' data-lineitemid="<%= line_item.id %>"><%= line_item.item_total %></span>
+      <%= simple_form_for line_item, data: { lineitemid: line_item.id } do |f| %>
+        <%= f.select(:quantity, options_for_select(0..line_item.product.stock, selected: line_item.quantity)) %>
+        <%= f.submit 'Update', data: {disable_with: false} %>
+      <% end %>
+
+      <%= tag.div id:'item_total' %>
+    </div>
   <% end %>
-
-  <%= tag.div id:'item_total' %>
-
-<% end %>
+</div>

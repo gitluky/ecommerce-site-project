@@ -1,10 +1,13 @@
-$('.products.show').ready(function() {
-  attachAddToCartListener();
+$( document ).on('turbolinks:load', function() {
+  if ($('body').data('controller') == 'products' && $('body').data('action') == 'show') {
+      attachAddToCartListener();
+  }
 });
 
 
 function attachAddToCartListener() {
   $('#new_line_item').submit((event) => {
+    debugger;
     event.preventDefault();
     const product_id = $('#line_item_product_id').val();
     const quantity = $('#line_item_quantity').val();
@@ -20,7 +23,8 @@ function attachAddToCartListener() {
     })
     .then(resp => resp.json())
     .then(json => {
-      $('#cart-link').text(json.data.attributes.item_count);
+      debugger;
+      $('#cart-link').text(`Cart (${json.data.attributes.item_count})`);
     });
   })
 }

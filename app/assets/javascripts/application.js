@@ -4,5 +4,5 @@
 //= require popper
 //= require bootstrap
 //= require activestorage
-//= home
+//= require home
 //= require_tree .
