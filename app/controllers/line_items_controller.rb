@@ -10,7 +10,7 @@ class LineItemsController < ApplicationController
   end
 
   def update
-    @line_item = LineItem.find_by(id:params[:id])
+    @line_item = current_cart.line_items.find_by(id:params[:id])
     @line_item.update(line_item_params)
     render json: CartSerializer.new(current_cart), status: 200
   end
