@@ -105,7 +105,6 @@ function attachUpdateLineItemListener() {
       })
       .then( resp => resp.json())
       .then( (json) => {
-        console.log(json);
         $('#cart-link').text(`Cart (${json.data.attributes.item_count})`);
         fetchCart();
       });

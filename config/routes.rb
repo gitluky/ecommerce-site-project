@@ -6,5 +6,8 @@ Rails.application.routes.draw do
     resources :products
   end
   resources :products
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
 end

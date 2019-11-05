@@ -33,8 +33,10 @@ hot_deals = Category.create(name: 'Hot Deals')
 end
 
 #create a user, shopping cart and some line items
-user1 = User.create(email: 'asdf@gmail.com', password: "password")
-cart1 = Cart.create(user_id: 1)
 10.times do
-  cart1.line_items.create(product_id: rand(0..50), cart: cart1)
+  user = User.create(email: Faker::Internet.email, password: "password")
+  cart = user.carts.create()
+  10.times do
+    cart.line_items.create(product_id: rand(0..50))
+  end
 end
