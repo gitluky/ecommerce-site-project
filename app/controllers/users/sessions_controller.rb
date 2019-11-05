@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  respond_to :json
   layout false
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -14,7 +15,6 @@ class Users::SessionsController < Devise::SessionsController
     super
     cart = @user.carts.create()
     session[:cart_id] = cart.id
-    binding.pry
   end
 
   # DELETE /resource/sign_out

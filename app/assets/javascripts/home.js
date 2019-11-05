@@ -1,10 +1,16 @@
 $( document ).on('turbolinks:load', function() {
   if ($('body').data('controller') == 'home' && $('body').data('action') == 'index') {
-    displayProducts();
-    attachCategoryListeners();
-    attachCartLinkListener();
+    onLoadFunctions();
   }
 });
+
+function onLoadFunctions() {
+  displayProducts();
+  attachCategoryListeners();
+  attachCartLinkListener();
+  attachLoginLinkListener();
+  attachSignUpLinkListener();
+}
 
 function displayProducts() {
   const Product = createProduct();
@@ -60,22 +66,32 @@ function attachProductListeners() {
 function attachAddToCartListener() {
   $('#new_line_item').submit((event) => {
     event.preventDefault();
-    const product_id = $('#line_item_product_id').val();
-    const quantity = $('#line_item_quantity').val();
-    const csrf_token = $("meta[name='csrf-token']").attr('content');
-    fetch('/line_items', {
-      method: 'POST',
-      headers: {
-       "Content-Type": "application/json",
-       "Accept": "application/json",
-       'X-CSRF-Token': csrf_token
-      },
-      body: JSON.stringify({product_id: product_id, quantity: quantity})
-    })
-    .then(resp => resp.json())
-    .then(json => {
-      $('#cart-link').text(`Cart (${json.data.attributes.item_count})`);
-    });
+    if (!$('#login-link')) {
+      const product_id = $('#line_item_product_id').val();
+      const quantity = $('#line_item_quantity').val();
+      const csrf_token = $("meta[name='csrf-token']").attr('content');
+      fetch('/line_items', {
+        method: 'POST',
+        headers: {
+         "Content-Type": "application/json",
+         "Accept": "application/json",
+         'X-CSRF-Token': csrf_token
+        },
+        body: JSON.stringify({product_id: product_id, quantity: quantity})
+      })
+      .then(resp => resp.json())
+      .then(json => {
+        $('#cart-link').text(`Cart (${json.data.attributes.item_count})`);
+      });
+    } else {
+      fetch('/users/sign_in')
+      .then(resp => resp.text())
+      .then(text => {
+        $('#form-container').html(text);
+        attachLoginListener();
+        attachSignUpLinkListener();
+      })
+    }
   })
 }
 
@@ -120,4 +136,105 @@ function fetchCart() {
     $('#product-container').html(text);
     attachUpdateLineItemListener();
   })
+}
+
+//Login and Sigh Up Listeners
+
+function attachSignUpLinkListener() {
+  $('.sign-up-link').click((event) => {
+    event.preventDefault();
+    fetch('/users/sign_up')
+    .then(resp => resp.text())
+    .then(text => {
+      $('#form-container').html(text);
+      attachLoginLinkListener();
+      attachSignUpFormListener();
+    })
+  })
+}
+
+function attachLoginLinkListener() {
+  $('.login-link').click((event) => {
+    event.preventDefault();
+    fetch('/users/sign_in')
+    .then(resp => resp.text())
+    .then(text => {
+      $('#form-container').html(text);
+      attachLoginListener();
+      attachCancelListener();
+      attachSignUpLinkListener();
+    })
+  })
+}
+
+function attachLoginListener() {
+  $('#new_user').submit((event) =>{
+    event.preventDefault();
+    const email = $('#user_email').val();
+    const password = $('#user_password').val();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    const body = JSON.stringify({user: {email: email , password: password}})
+    fetch('/users/sign_in', {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/json",
+       "Accept": "application/json",
+       'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify({user: {email: email , password: password}})
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      if (!!json.error) {
+        $('.alert').text(json.error);
+      } else {
+        fetch('/navbar')
+        .then(resp => resp.text())
+        .then(text => {
+          $('#form-container').empty();
+          $('nav').replaceWith(text);
+        })
+      }
+    })
+  })
+}
+
+function attachSignUpFormListener() {
+  $('#new_user').submit((event) =>{
+    event.preventDefault();
+    const email = $('#user_email').val();
+    const password = $('#user_password').val();
+    const password_confirmation =  $('#user_password_confirmation').val();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    fetch('/users/sign_up', {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/json",
+       "Accept": "application/json",
+       'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify({email: email , password: password, password_confirmation: password_confirmation })
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      if (!json.ok) {
+        $('.alert').text(json.error);
+      } else {
+        console.log(json)
+      }
+    })
+  })
+}
+
+function attachCancelListener() {
+  $('#cancel-button').click((event) => {
+    event.preventDefault();
+    $('#form-container').empty();
+    $('body').scrollTo('#main');
+  })
+}
+
+function clearNotifications() {
+  $('.notice').empty();
+  $('.alert').empty();
 }

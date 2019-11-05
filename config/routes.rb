@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+  get '/navbar', to: 'home#navbar'
+
 end

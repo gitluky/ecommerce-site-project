@@ -16,6 +16,16 @@
   justify-items: center;
 }
 
+#form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+.users-form {
+  grid-column: 2/3;
+}
+
 
 #categories {
   grid-area: categories;
