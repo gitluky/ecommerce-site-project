@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>EcommerceSiteProject</title>
-    <%= csrf_meta_tags %>
+    <%= render partial: 'layouts/csrf' %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-eval': 'false' %>
   </head>
 
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>">

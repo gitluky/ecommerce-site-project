@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   get '/navbar', to: 'home#navbar'
+  get '/csrf', to: 'home#csrf'
 
 end

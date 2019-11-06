@@ -7,4 +7,8 @@ class HomeController < ApplicationController
   def navbar
     render partial: 'layouts/navbar'
   end
+
+  def csrf
+    render partial: 'layouts/csrf'
+  end
 end

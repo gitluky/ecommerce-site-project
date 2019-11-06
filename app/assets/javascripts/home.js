@@ -12,6 +12,23 @@ function onLoadFunctions() {
   attachSignUpLinkListener();
 }
 
+function reloadHeadAndNavBar() {
+  fetch('/navbar')
+  .then(resp => resp.text())
+  .then(text => {
+    $('#form-container').empty();
+    $('nav').remove();
+    $('.container-fluid').prepend(text);
+    attachLogOutLinkListener();
+  })
+  fetch('/csrf')
+  .then(resp => resp.text())
+  .then(text => {
+    $('meta[name^="csrf"]').remove();
+    $('head').prepend(text);
+  })
+}
+
 function displayProducts() {
   const Product = createProduct();
   const categoryId = $('#product-container').data('categoryid')
@@ -66,7 +83,7 @@ function attachProductListeners() {
 function attachAddToCartListener() {
   $('#new_line_item').submit((event) => {
     event.preventDefault();
-    if (!$('#login-link')) {
+    if ($('.login-link').length === 0) {
       const product_id = $('#line_item_product_id').val();
       const quantity = $('#line_item_quantity').val();
       const csrf_token = $("meta[name='csrf-token']").attr('content');
@@ -88,7 +105,8 @@ function attachAddToCartListener() {
       .then(resp => resp.text())
       .then(text => {
         $('#form-container').html(text);
-        attachLoginListener();
+        $('.alert').text('Please log in or sign up.')
+        attachLoginFormListener();
         attachSignUpLinkListener();
       })
     }
@@ -143,6 +161,7 @@ function fetchCart() {
 function attachSignUpLinkListener() {
   $('.sign-up-link').click((event) => {
     event.preventDefault();
+    clearNotifications();
     fetch('/users/sign_up')
     .then(resp => resp.text())
     .then(text => {
@@ -153,21 +172,39 @@ function attachSignUpLinkListener() {
   })
 }
 
+function attachLogOutLinkListener() {
+  $('#log-out-link').click((event) => {
+    event.preventDefault();
+    clearNotifications();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    fetch('/users/sign_out', {
+      method: 'DELETE',
+    })
+    .then(resp => resp.text())
+    .then(text => {
+      $('nav').replaceWith(text);
+      attachLoginLinkListener();
+      attachSignUpFormListener();
+    })
+  })
+}
+
 function attachLoginLinkListener() {
   $('.login-link').click((event) => {
     event.preventDefault();
+    clearNotifications();
     fetch('/users/sign_in')
     .then(resp => resp.text())
     .then(text => {
       $('#form-container').html(text);
-      attachLoginListener();
-      attachCancelListener();
+      attachLoginFormListener();
       attachSignUpLinkListener();
     })
   })
 }
 
-function attachLoginListener() {
+function attachLoginFormListener() {
+  attachCancelListener();
   $('#new_user').submit((event) =>{
     event.preventDefault();
     const email = $('#user_email').val();
@@ -188,12 +225,7 @@ function attachLoginListener() {
       if (!!json.error) {
         $('.alert').text(json.error);
       } else {
-        fetch('/navbar')
-        .then(resp => resp.text())
-        .then(text => {
-          $('#form-container').empty();
-          $('nav').replaceWith(text);
-        })
+        reloadHeadAndNavBar();
       }
     })
   })
@@ -229,6 +261,7 @@ function attachSignUpFormListener() {
 function attachCancelListener() {
   $('#cancel-button').click((event) => {
     event.preventDefault();
+    clearNotifications();
     $('#form-container').empty();
     $('body').scrollTo('#main');
   })
