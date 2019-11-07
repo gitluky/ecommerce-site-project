@@ -8,17 +8,17 @@ function onLoadFunctions() {
   displayProducts();
   attachCategoryListeners();
   attachCartLinkListener();
-  attachLoginLinkListener();
   attachSignUpLinkListener();
+  attachSearchListener();
+  $('.login-link').length === 0 ? attachLogOutLinkListener() : attachLoginLinkListener();
 }
 
-function reloadHeadAndNavBar() {
+function reloadCsrfAndNavBar() {
   fetch('/navbar')
   .then(resp => resp.text())
   .then(text => {
     $('#form-container').empty();
-    $('nav').remove();
-    $('.container-fluid').prepend(text);
+    $('#nav').html(text);
     attachLogOutLinkListener();
   })
   fetch('/csrf')
@@ -53,6 +53,7 @@ function attachCategoryListeners() {
     const categoryId = $(categoryLink).data('categoryid')
     $(categoryLink).click((event) => {
       event.preventDefault();
+      clearNotifications();
       $('#product-container').data('categoryid', categoryId);
       displayProducts();
     });
@@ -70,6 +71,7 @@ function attachProductListeners() {
     const productId = $(productCard).data('productid')
     $(productCard).click((event) => {
       event.preventDefault();
+      clearNotifications();
       fetch('products/' + productId)
       .then(resp => resp.text())
       .then(text => {
@@ -178,11 +180,15 @@ function attachLogOutLinkListener() {
     clearNotifications();
     const csrf_token = $("meta[name='csrf-token']").attr('content');
     fetch('/users/sign_out', {
-      method: 'DELETE',
+      method: 'DELETE'
+      // headers: {
+      //  "Content-Type": "application/json",
+      //  "Accept": "application/json",
+      //  'X-CSRF-Token': csrf_token
+      // }
     })
     .then(resp => resp.text())
     .then(text => {
-      $('nav').replaceWith(text);
       attachLoginLinkListener();
       attachSignUpFormListener();
     })
@@ -225,7 +231,9 @@ function attachLoginFormListener() {
       if (!!json.error) {
         $('.alert').text(json.error);
       } else {
-        reloadHeadAndNavBar();
+        reloadCsrfAndNavBar();
+        clearNotifications();
+        attachLogOutLinkListener()
       }
     })
   })
@@ -270,4 +278,32 @@ function attachCancelListener() {
 function clearNotifications() {
   $('.notice').empty();
   $('.alert').empty();
+}
+
+function attachSearchListener() {
+  $('#search-form').submit((event) => {
+    event.preventDefault();
+    const search_string = $('#search-field').val();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    fetch('/products/search', {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "applicaiton/json",
+        "X-CSRF-Token": csrf_token
+      },
+      body: JSON.stringify({search_string: search_string})
+    })
+    .then(resp => resp.json())
+    .then((json) => {
+      const Product = createProduct();
+      $('#product-container').empty();
+      json.data.forEach((dataObj) => {
+        const newProduct = new Product(dataObj);
+        const html = newProduct.generateProductCellHtml();
+        $('#product-container').append(html);
+        attachProductListeners();
+      })
+    })
+  })
 }

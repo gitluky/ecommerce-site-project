@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   }
   get '/navbar', to: 'home#navbar'
   get '/csrf', to: 'home#csrf'
-
+  post '/products/search', to: 'products#search'
 end

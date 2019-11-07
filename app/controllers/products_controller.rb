@@ -10,4 +10,9 @@ class ProductsController < ApplicationController
     @line_item = LineItem.new(product: @product)
     render layout: false
   end
+
+  def search
+    @products = Product.where("products.name LIKE ?", "%#{params[:search_string]}%")
+    render json: ProductSerializer.new(@products)
+  end
 end

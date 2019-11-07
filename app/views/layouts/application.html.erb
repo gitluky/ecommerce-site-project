@@ -3,11 +3,6 @@
   <head>
     <title>EcommerceSiteProject</title>
     <%= render partial: 'layouts/csrf' %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-eval': 'false' %>
   </head>
 
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>">
@@ -18,9 +13,9 @@
         </div>
       </div>
     <% end %>
-
-    <%= render partial: 'layouts/navbar' %>
-
+    <div id="nav">
+      <%= render partial: 'layouts/navbar' %>
+    </div>
 
     <p class="notice text-center text-success"><%= notice %></p>
     <p class="alert text-center text-danger"><%= alert %></p>
