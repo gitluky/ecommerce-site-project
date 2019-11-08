@@ -170,6 +170,39 @@ function attachSignUpLinkListener() {
       $('#form-container').html(text);
       attachLoginLinkListener();
       attachSignUpFormListener();
+      attachCancelListener();
+    })
+  })
+}
+
+function attachSignUpFormListener() {
+  $('#new_user').submit((event) =>{
+    event.preventDefault();
+    const email = $('#user_email').val();
+    const password = $('#user_password').val();
+    const password_confirmation =  $('#user_password_confirmation').val();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    fetch('/users', {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/json",
+       "Accept": "application/json",
+       'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify( {user: {email: email , password: password, password_confirmation: password_confirmation }})
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      if (!!json.errors) {
+        for(i in json.errors) {
+          const message = `${i.charAt(0).toUpperCase() + i.slice(1)} ${json.errors[i]}`;
+          $('.alert').append('<p>'+ message + '</p>');
+        }
+      } else {
+        $('#form-container').empty();
+        reloadCsrfAndNavBar();
+        clearNotifications();
+      }
     })
   })
 }
@@ -181,11 +214,6 @@ function attachLogOutLinkListener() {
     const csrf_token = $("meta[name='csrf-token']").attr('content');
     fetch('/users/sign_out', {
       method: 'DELETE'
-      // headers: {
-      //  "Content-Type": "application/json",
-      //  "Accept": "application/json",
-      //  'X-CSRF-Token': csrf_token
-      // }
     })
     .then(resp => resp.text())
     .then(text => {
@@ -224,7 +252,7 @@ function attachLoginFormListener() {
        "Accept": "application/json",
        'X-CSRF-Token': csrf_token
       },
-      body: JSON.stringify({user: {email: email , password: password}})
+      body: body
     })
     .then(resp => resp.json())
     .then(json => {
@@ -239,39 +267,11 @@ function attachLoginFormListener() {
   })
 }
 
-function attachSignUpFormListener() {
-  $('#new_user').submit((event) =>{
-    event.preventDefault();
-    const email = $('#user_email').val();
-    const password = $('#user_password').val();
-    const password_confirmation =  $('#user_password_confirmation').val();
-    const csrf_token = $("meta[name='csrf-token']").attr('content');
-    fetch('/users/sign_up', {
-      method: "POST",
-      headers: {
-       "Content-Type": "application/json",
-       "Accept": "application/json",
-       'X-CSRF-Token': csrf_token
-      },
-      body: JSON.stringify({email: email , password: password, password_confirmation: password_confirmation })
-    })
-    .then(resp => resp.json())
-    .then(json => {
-      if (!json.ok) {
-        $('.alert').text(json.error);
-      } else {
-        console.log(json)
-      }
-    })
-  })
-}
-
 function attachCancelListener() {
   $('#cancel-button').click((event) => {
     event.preventDefault();
     clearNotifications();
     $('#form-container').empty();
-    $('body').scrollTo('#main');
   })
 }
 

@@ -3,16 +3,12 @@
   <head>
     <title>EcommerceSiteProject</title>
     <%= render partial: 'layouts/csrf' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>">
-    <% if current_page?(controller: '/home', action: 'index') %>
-      <div class="container-fluid">
-        <div class="w-100">
-          <%= image_tag('sale_banner.jpg', class: 'w-100 mb-2') %>
-        </div>
-      </div>
-    <% end %>
+
     <div id="nav">
       <%= render partial: 'layouts/navbar' %>
     </div>

@@ -19,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    if !current_cart.checked_out
+    if !!current_cart && !current_cart.checked_out
       current_cart.destroy
     end
     super
