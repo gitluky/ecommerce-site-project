@@ -37,6 +37,8 @@ gem 'fast_jsonapi'
 gem "mini_magick"
 gem 'pry'
 gem 'rack-cors'
+gem 'dotenv'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

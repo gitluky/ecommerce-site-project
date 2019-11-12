@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_04_233334) do
+ActiveRecord::Schema.define(version: 2019_11_12_202738) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -57,6 +57,16 @@ ActiveRecord::Schema.define(version: 2019_11_04_233334) do
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer "cart_id", null: false
+    t.integer "shipping_address_id", null: false
+    t.decimal "payment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
+  end
+
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "category_id", null: false
@@ -71,6 +81,16 @@ ActiveRecord::Schema.define(version: 2019_11_04_233334) do
     t.text "description"
     t.decimal "price", precision: 10, scale: 2
     t.integer "stock"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "shipping_addresses", force: :cascade do |t|
+    t.string "street_1"
+    t.string "street_2"
+    t.string "city"
+    t.string "state"
+    t.string "zip_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -92,6 +112,8 @@ ActiveRecord::Schema.define(version: 2019_11_04_233334) do
   add_foreign_key "carts", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "products"
+  add_foreign_key "orders", "carts"
+  add_foreign_key "orders", "shipping_addresses"
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
 end
