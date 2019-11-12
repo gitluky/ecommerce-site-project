@@ -20,6 +20,7 @@ function reloadCsrfAndNavBar() {
     $('#form-container').empty();
     $('#nav').html(text);
     attachLogOutLinkListener();
+    attachCartLinkListener();
   })
   fetch('/csrf')
   .then(resp => resp.text())
@@ -28,6 +29,8 @@ function reloadCsrfAndNavBar() {
     $('head').prepend(text);
   })
 }
+
+//Category & Product Listeners
 
 function displayProducts() {
   const Product = createProduct();
@@ -115,6 +118,7 @@ function attachAddToCartListener() {
   })
 }
 
+//Cart functions
 function attachCartLinkListener() {
   $('#cart-link').click((event) => {
     event.preventDefault();
@@ -175,6 +179,68 @@ function attachSignUpLinkListener() {
   })
 }
 
+function attachLogOutLinkListener() {
+  $('#log-out-link').click((event) => {
+    event.preventDefault();
+    clearNotifications();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    fetch('/users/sign_out', {
+      method: 'DELETE'
+    })
+    .then(resp => resp.text())
+    .then(text => {
+      attachLoginLinkListener();
+      attachSignUpFormListener();
+    })
+  })
+}
+
+function attachLoginLinkListener() {
+  $('.login-link').click((event) => {
+    event.preventDefault();
+    clearNotifications();
+    fetch('/users/sign_in')
+    .then(resp => resp.text())
+    .then(text => {
+      $('#form-container').html(text);
+      attachLoginFormListener();
+      attachSignUpLinkListener();
+    })
+  })
+}
+
+//Sigh Up and Login Form Listeners
+
+function attachLoginFormListener() {
+  attachCancelListener();
+  $('#new_user').submit((event) =>{
+    event.preventDefault();
+    const email = $('#user_email').val();
+    const password = $('#user_password').val();
+    const csrf_token = $("meta[name='csrf-token']").attr('content');
+    const body = JSON.stringify({user: {email: email , password: password}})
+    fetch('/users/sign_in', {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/json",
+       "Accept": "application/json",
+       'X-CSRF-Token': csrf_token
+      },
+      body: body
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      if (!!json.error) {
+        $('.alert').text(json.error);
+      } else {
+        reloadCsrfAndNavBar();
+        clearNotifications();
+        attachLogOutLinkListener()
+      }
+    })
+  })
+}
+
 function attachSignUpFormListener() {
   $('#new_user').submit((event) =>{
     event.preventDefault();
@@ -207,66 +273,6 @@ function attachSignUpFormListener() {
   })
 }
 
-function attachLogOutLinkListener() {
-  $('#log-out-link').click((event) => {
-    event.preventDefault();
-    clearNotifications();
-    const csrf_token = $("meta[name='csrf-token']").attr('content');
-    fetch('/users/sign_out', {
-      method: 'DELETE'
-    })
-    .then(resp => resp.text())
-    .then(text => {
-      attachLoginLinkListener();
-      attachSignUpFormListener();
-    })
-  })
-}
-
-function attachLoginLinkListener() {
-  $('.login-link').click((event) => {
-    event.preventDefault();
-    clearNotifications();
-    fetch('/users/sign_in')
-    .then(resp => resp.text())
-    .then(text => {
-      $('#form-container').html(text);
-      attachLoginFormListener();
-      attachSignUpLinkListener();
-    })
-  })
-}
-
-function attachLoginFormListener() {
-  attachCancelListener();
-  $('#new_user').submit((event) =>{
-    event.preventDefault();
-    const email = $('#user_email').val();
-    const password = $('#user_password').val();
-    const csrf_token = $("meta[name='csrf-token']").attr('content');
-    const body = JSON.stringify({user: {email: email , password: password}})
-    fetch('/users/sign_in', {
-      method: "POST",
-      headers: {
-       "Content-Type": "application/json",
-       "Accept": "application/json",
-       'X-CSRF-Token': csrf_token
-      },
-      body: body
-    })
-    .then(resp => resp.json())
-    .then(json => {
-      if (!!json.error) {
-        $('.alert').text(json.error);
-      } else {
-        reloadCsrfAndNavBar();
-        clearNotifications();
-        attachLogOutLinkListener()
-      }
-    })
-  })
-}
-
 function attachCancelListener() {
   $('#cancel-button').click((event) => {
     event.preventDefault();
@@ -279,6 +285,8 @@ function clearNotifications() {
   $('.notice').empty();
   $('.alert').empty();
 }
+
+//Search Listener
 
 function attachSearchListener() {
   $('#search-form').submit((event) => {

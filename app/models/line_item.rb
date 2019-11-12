@@ -13,8 +13,12 @@ class LineItem < ApplicationRecord
     end
   end
 
+  def formatted_item_total
+    "$#{'%.2f' % (self.item_total)}"
+  end
+
   def item_total
-    "$#{'%.2f' % (self.product.price * self.quantity)}"
+    self.product.price * self.quantity
   end
 
 end

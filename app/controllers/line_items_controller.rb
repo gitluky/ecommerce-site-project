@@ -12,9 +12,11 @@ class LineItemsController < ApplicationController
   def update
     @line_item = current_cart.line_items.find_by(id:params[:id])
     @line_item.update(line_item_params)
+    if @line_item.quantity == 0
+      @line_item.destroy
+    end
     render json: CartSerializer.new(current_cart), status: 200
   end
-
 
   private
 

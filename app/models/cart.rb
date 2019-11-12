@@ -4,6 +4,15 @@ class Cart < ApplicationRecord
   has_many :products, through: :line_items
 
   def item_count
-    self.line_items.map {|line_item| line_item.quantity}.reduce {|quantity, n| quantity + n }
+    self.line_items.map {|line_item| line_item.quantity}.reduce {|quantity, n| quantity + n } || 0
   end
+
+  def total
+    self.line_items.map {|line_item| line_item.item_total}.reduce {|quantity, n| quantity + n } || 0
+  end
+
+  def formatted_total
+    "$#{'%.2f' % (total)}"
+  end
+
 end

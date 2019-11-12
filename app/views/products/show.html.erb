@@ -1,8 +1,4 @@
-
-
-
-
-  <% @product.thumbnails.each do |thumbnails|%>
+<% @product.thumbnails.each do |thumbnails|%>
     <div class="product-show-thumbnails">
       <%= image_tag url_for(thumbnails) %>
     </div>

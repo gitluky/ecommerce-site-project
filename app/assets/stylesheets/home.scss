@@ -22,6 +22,21 @@
   justify-items: center;
 }
 
+#item_total {
+  grid-column: 4/5;
+  justify-self: start;
+}
+
+#empty_message {
+  grid-column: 2/3;
+  grid-row: 3/4;
+  justify-self: end;
+}
+
+#line-items-container {
+  grid-column: 2/4;
+}
+
 .users-form {
   grid-column: 2/3;
 }

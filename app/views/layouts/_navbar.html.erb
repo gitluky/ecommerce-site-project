@@ -24,7 +24,7 @@
     <span class='user-nav-links'>
       <% if user_signed_in? %>
           <%= link_to 'Log Out', destroy_user_session_path, method: 'delete', class: 'ml-3 mr-3 text-light', id: 'log-out-link' %>
-          <%= link_to "Cart (#{current_cart.item_count || 0})", cart_path(current_cart), id: 'cart-link', data: { cartid: current_cart.id } %>
+          <%= link_to "Cart (#{current_cart.item_count})", cart_path(current_cart), id: 'cart-link', data: { cartid: current_cart.id } %>
         <% else %>
           <%= link_to 'Login', new_user_session_path, class: 'ml-3 text-light login-link' %>
           <%= link_to 'Sign Up', new_user_registration_path, class: 'ml-3 text-light sign-up-link' %>
