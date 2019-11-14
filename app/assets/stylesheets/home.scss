@@ -37,10 +37,17 @@
   grid-column: 2/4;
 }
 
+#order-line-items-container {
+  grid-column: 1/2;
+}
+
 .users-form {
   grid-column: 2/3;
 }
 
+#checkout-button {
+  grid-column: 4/5;
+}
 
 #categories {
   grid-area: categories;

@@ -159,7 +159,44 @@ function fetchCart() {
   .then(text => {
     $('#product-container').html(text);
     attachUpdateLineItemListener();
+    attachCheckOutLinkListener();
   })
+}
+
+function attachCheckOutLinkListener() {
+  $('#checkout-button').click((event) => {
+    event.preventDefault();
+    fetch('/checkout')
+    .then(resp => resp.text())
+    .then(text => {
+      $('#product-container').html(text);
+      attachUpdateLineItemListener();
+    })
+  })
+}
+
+
+function attachPlaceOrderLinkListener() {
+  $('#order-button').click((event) => {
+    event.preventDefault();
+    $('#product-containter').data('controller', 'orders');
+    $('#product-containter').data('action', 'checkout');
+    fetch('/checkout')
+    .then(resp => resp.json())
+    .then((json) => {
+      const stripe = Stripe('pk_test_4MTh5FR8tF64XSKKPUJr0YxP002P8e3dSV');
+      stripe.redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+        sessionId: json.id
+      }).then(function (result) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+      });
+    });
+  });
 }
 
 //Login and Sigh Up Listeners

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_202738) do
+ActiveRecord::Schema.define(version: 2019_11_14_215209) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -60,11 +60,13 @@ ActiveRecord::Schema.define(version: 2019_11_12_202738) do
   create_table "orders", force: :cascade do |t|
     t.integer "cart_id", null: false
     t.integer "shipping_address_id", null: false
-    t.decimal "payment"
+    t.integer "user_id"
+    t.string "status", default: "Created"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -95,6 +97,11 @@ ActiveRecord::Schema.define(version: 2019_11_12_202738) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "shipping_addresses_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "shipping_address_id", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -114,6 +121,7 @@ ActiveRecord::Schema.define(version: 2019_11_12_202738) do
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "shipping_addresses"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
 end

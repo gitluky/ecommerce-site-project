@@ -35,8 +35,10 @@ end
 #create a user, shopping cart and some line items
 10.times do
   user = User.create(email: Faker::Internet.email, password: "password")
-  cart = user.carts.create()
+  cart = user.carts.create(checked_out: true)
+  address = user.shipping_addresses.create(street_1: Faker::Address.street_address, street_2: Faker::Address.secondary_address, city: Faker::Address.city, state: Faker::Address.state_abbr, zip_code: Faker::Address.zip)
   10.times do
-    cart.line_items.create(product_id: rand(0..50))
+    cart.line_items.create(product_id: rand(1..Product.all.length))
   end
+  Order.create(cart: cart, shipping_address: address)
 end

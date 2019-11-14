@@ -1,6 +1,7 @@
 class LineItem < ApplicationRecord
   belongs_to :product
   belongs_to :cart
+  has_one :order, through: :cart
 
   def self.update_or_create_to_cart(cart, params)
     cart = Cart.find_by(id: cart)

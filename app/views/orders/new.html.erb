@@ -1,10 +1,10 @@
-<% if @cart.line_items.empty? %>
+<% if @order.cart.line_items.empty? %>
   <div id="empty_message">
     <h3>Cart is empty.</h3>
   </div>
 <% end %>
-<div id="line-items-container" >
-  <% @cart.line_items.each do |line_item| %>
+<div id="order-line-items-container" >
+  <% @order.cart.line_items.each do |line_item| %>
     <div class="line-item-card" data-lineitemid="<%= line_item.id %>" >
       <%= line_item.product.name %>
       <span class='product-price' data-lineitemid="<%= line_item.id %>"><%= line_item.product.formatted_price %></span> x
@@ -17,7 +17,11 @@
     </div>
   <% end %>
 </div>
+<%= simple_form_for @user do %>
+
+<% end %>
+
 <%= tag.div id:'item_total' do %>
-  <h4>Total: <%= @cart.formatted_total %></h4>
-  <%= link_to 'Checkout', checkout_path, id: 'checkout-button', class: 'btn btn-primary' %>
+  <h4>Total: <%= @order.cart.formatted_total %></h4>
+  <%= link_to 'Place Order', process_order_path, id: 'order-button', class: 'btn btn-primary' %>
 <% end %>
