@@ -1,10 +1,14 @@
 class OrdersController < ApplicationController
   layout false
 
+  def index
+
+  end
+
   def new
-    @order = Order.new(cart: current_cart)
-
-
+    @user = current_user
+    @order = @user.orders.build(cart: current_cart)
+    @order.build_shipping_address()
   end
 
   def create
@@ -40,6 +44,12 @@ class OrdersController < ApplicationController
 
   def cancelled
 
+  end
+
+  private
+
+  def order_params
+    params.require(:order).permit(:shipping_address_id, shipping_address_attributes: [:street_1, :street_2, :city, :state, :zip_code])
   end
 
 end

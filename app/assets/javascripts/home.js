@@ -176,12 +176,31 @@ function attachCheckOutLinkListener() {
 }
 
 
-function attachPlaceOrderLinkListener() {
-  $('#order-button').click((event) => {
+function attachProcessOrderLinkListener() {
+  $('#new_order').submit((event) => {
     event.preventDefault();
-    $('#product-containter').data('controller', 'orders');
-    $('#product-containter').data('action', 'checkout');
-    fetch('/checkout')
+    if ($('#order_shipping_address_id').is(':checked')) {
+      const body = {
+        shipping_address_attributes {
+          street_1: $('#order_shipping_attributes_street_1').val(),
+          street_2: $('#order_shipping_attributes_street_2').val(),
+          city: $('#order_shipping_attributes_city').val(),
+          state: $('#order_shipping_attributes_state').val(),
+          zipcode: $('#order_shipping_attributes_zipcode').val()
+        }
+      };
+    } else {
+      const body = { shipping_address_id: $('input[name="order[shipping_address_id]"]:checked').val()};
+    }
+    fetch('/process_order', {
+      method: 'POST',
+      headers: {
+       "Content-Type": "application/json",
+       "Accept": "application/json",
+       'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify(body)
+    })
     .then(resp => resp.json())
     .then((json) => {
       const stripe = Stripe('pk_test_4MTh5FR8tF64XSKKPUJr0YxP002P8e3dSV');

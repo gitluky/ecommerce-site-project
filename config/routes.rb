@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders, only: [:index, :edit, :update]
   resources :shipping_addresses
   resources :carts, only: [:show]
   resources :line_items, only: [:create, :update, :destroy]
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   get '/csrf', to: 'home#csrf'
   post '/products/search', to: 'products#search'
   get '/checkout', to: 'orders#new'
-  get '/process_order', to: 'orders#create'
+  post '/process_order', to: 'orders#create'
   get '/success', to: 'orders#success'
   get '/cancelled', to: 'orders#cancelled'
 end
