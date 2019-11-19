@@ -13,15 +13,19 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     super
-    cart = @user.carts.create()
-    session[:cart_id] = cart.id
+    if @user.carts.last.checked_out == false
+      session[:cart_id] = @user.carts.last.id
+    else
+      cart = @user.carts.create()
+      session[:cart_id] = cart.id
+    end
   end
 
   # DELETE /resource/sign_out
   def destroy
-    if !!current_cart && !current_cart.checked_out
-      current_cart.destroy
-    end
+    # if !!current_cart && !current_cart.checked_out
+    #   current_cart.destroy
+    # end
     super
   end
 
