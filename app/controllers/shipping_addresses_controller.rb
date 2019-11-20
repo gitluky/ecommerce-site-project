@@ -11,10 +11,8 @@ class ShippingAddressesController < ApplicationController
    render json: user
   end
 
-  def destroy
-    shipping_address = ShippingAddress.find_by(id: params[:id])
-    shipping_address.destroy
-    redirect_to root_path
+  def user_addresses
+    render partial: 'user_addresses', locals: { current_user: current_user }
   end
 
   private

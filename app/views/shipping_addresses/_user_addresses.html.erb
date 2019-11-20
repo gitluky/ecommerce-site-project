@@ -1,0 +1,4 @@
+<h3>Current Addresses:</h3>
+<% current_user.shipping_addresses.each do |address| %>
+  <p><%= address.full_address %><%= link_to 'Remove', remove_address_path(address), confirm: 'Are you sure you want to delete this address?', class: 'ml-3 btn btn-danger', data: {address_id: address.id, link: 'remove'} %></p>
+<% end %><br/>
