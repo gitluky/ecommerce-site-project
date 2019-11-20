@@ -1,34 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand mb-n2 ml-5 pl-3" href="/"><h3>SomeShop</h3></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li> -->
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="#">About Us</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Support</a>
-      </li> -->
-    </ul>
-    <span>
-      <form class="form-inline" id="search-form">
-        <input class="form-control mr-sm-2"type="search" placeholder="Search" aria-label="Search" id="search-field">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </span>
-    <span class='user-nav-links'>
-      <% if user_signed_in? %>
+  <a class="navbar-brand ml-5 pl-3 align-top" href="/"><h3>SomeShop</h3></a>
+  <span>
+    <form class="form-inline" id="search-form">
+      <input class="form-control mr-sm-2"type="search" placeholder="Search" aria-label="Search" id="search-field">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </span>
+  <% if user_signed_in? %>
+  <div class="btn-group ml-auto">
+    <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= current_user.email %></button>
+      <div class="dropdown-menu bg-secondary">
+        <div class="my-3">
+          <%= link_to 'My Account', '#', id: 'my_account_link', class: 'ml-3 mr-3 text-light'%>
+        </div>
+        <div class="my-3">
           <%= link_to 'Log Out', destroy_user_session_path, method: 'delete', class: 'ml-3 mr-3 text-light', id: 'log-out-link' %>
-          <%= link_to "Cart (#{current_cart.item_count})", cart_path(current_cart), id: 'cart-link', data: { cartid: current_cart.id } %>
-        <% else %>
-          <%= link_to 'Login', new_user_session_path, class: 'ml-3 text-light login-link' %>
-          <%= link_to 'Sign Up', new_user_registration_path, class: 'ml-3 text-light sign-up-link' %>
-      <% end %>
+        </div>
+      </div>
+    </li>
+    <button class="btn btn-dark"><%= link_to "Cart (#{current_cart.item_count})", cart_path(current_cart), id: 'cart-link', data: { cartid: current_cart.id } %></button>
+  <% else %>
+    <span class="nav-item ml-auto">
+      <%= link_to 'Login', new_user_session_path, class: 'ml-3 text-light login-link' %>
     </span>
-  </div>
+    <span class="nav-item">
+      <%= link_to 'Sign Up', new_user_registration_path, class: 'ml-3 text-light sign-up-link' %>
+    </span>
+  <% end %>
+
 </nav>

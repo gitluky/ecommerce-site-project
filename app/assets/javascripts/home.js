@@ -10,6 +10,7 @@ function onLoadFunctions() {
   attachCartLinkListener();
   attachSignUpLinkListener();
   attachSearchListener();
+  attachMyAccountListener();
   $('.login-link').length === 0 ? attachLogOutLinkListener() : attachLoginLinkListener();
 }
 

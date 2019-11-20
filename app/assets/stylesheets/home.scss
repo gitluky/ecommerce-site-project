@@ -53,6 +53,19 @@
   grid-area: categories;
   text-align: right;
 }
+#edit_user{
+  grid-column: 1/4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2em;
+}
+
+.form-inputs {
+  grid-column: 1/2;
+}
+#address-section {
+  grid-column: 2/3;
+}
 
 .hidden {
   display: none;

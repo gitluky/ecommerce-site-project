@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  get '/shipping_addresses/:id/remove_address', to: 'shipping_addresses#remove_address', as: 'remove_address'
   get '/navbar', to: 'home#navbar'
   get '/csrf', to: 'home#csrf'
   post '/products/search', to: 'products#search'
