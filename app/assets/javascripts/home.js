@@ -10,6 +10,8 @@ $( document ).on('turbolinks:load', function() {
       displayProducts();
     } else if (!!location.href.match(/.*categories\/\d+\/products\/\d+/)) {
       displayProduct();
+    } else if (!!location.href.match(/.*users\/edit/)) {
+      fetchAcount();
     }
   })
 });
@@ -50,8 +52,6 @@ function attachCartLinkListener() {
     fetchCart();
   })
 }
-
-
 
 function attachSignUpLinkListener() {
   $('.sign-up-link').click((event) => {
