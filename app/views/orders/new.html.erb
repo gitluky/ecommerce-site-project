@@ -16,6 +16,9 @@
       <% end %>
     </div>
   <% end %>
+  <%= tag.div id:'item_total', class: 'mt-5' do %>
+    <h4>Total: <%= @order.cart.formatted_total %></h4>
+  <% end %>
 </div>
 <%= simple_form_for @order do |f| %>
   <p><b>Choose Shipping Address: </b></p>
@@ -63,7 +66,4 @@
   <div class='form-group row justify-content-center mt-4'>
     <%= f.submit 'Place Order', class: 'btn btn-primary' %>
   </div>
-  <%= tag.div id:'item_total' do %>
-    <h4>Total: <%= @order.cart.formatted_total %></h4>
-  <% end %>
 <% end %>
