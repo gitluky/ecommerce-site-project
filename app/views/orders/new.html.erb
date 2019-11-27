@@ -56,14 +56,14 @@
           <%= addr.text_field :zip_code, class: 'form-control' %>
         </div>
       </div>
-      <div class='form-group row justify-content-center mt-4'>
-        <%= addr.submit 'Place Order', class: 'btn btn-primary col-lg-3' %>
-      </div>
+
     <% end %>
   </div>
-<% end %>
 
-<%= tag.div id:'item_total' do %>
-  <h4>Total: <%= @order.cart.formatted_total %></h4>
-
+  <div class='form-group row justify-content-center mt-4'>
+    <%= f.submit 'Place Order', class: 'btn btn-primary' %>
+  </div>
+  <%= tag.div id:'item_total' do %>
+    <h4>Total: <%= @order.cart.formatted_total %></h4>
+  <% end %>
 <% end %>

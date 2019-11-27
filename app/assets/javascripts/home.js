@@ -1,7 +1,17 @@
 $( document ).on('turbolinks:load', function() {
   if ($('body').data('controller') == 'home' && $('body').data('action') == 'index') {
     onLoadFunctions();
+
   }
+  $(window).on('popstate', (e) => {
+    if (!!location.href.match(/.*carts\/\d+/)) {
+      fetchCart();
+    } else if (!!location.href.match(/.*categories\/\d+\/products$/)) {
+      displayProducts();
+    } else if (!!location.href.match(/.*categories\/\d+\/products\/\d+/)) {
+      displayProduct();
+    }
+  })
 });
 
 function onLoadFunctions() {
@@ -35,6 +45,8 @@ function reloadCsrfAndNavBar() {
 function attachCartLinkListener() {
   $('#cart-link').click((event) => {
     event.preventDefault();
+    const cartId = $('#cart-link').data('cartid');
+    history.pushState('cart', null, '/carts/' + cartId);
     fetchCart();
   })
 }

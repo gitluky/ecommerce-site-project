@@ -2,7 +2,8 @@ function displayProducts() {
   const Product = createProduct();
   const categoryId = $('#product-container').data('categoryid')
   boldCategory(categoryId);
-  fetch('/categories/' + categoryId + '/products')
+  let url = location.href === 'http://localhost:3000/' ? '/categories/' + categoryId + '/products' : location.href
+  fetch(url)
     .then(resp => resp.json())
     .then(json => {
       $('#product-container').empty();
@@ -24,6 +25,7 @@ function attachCategoryListeners() {
       event.preventDefault();
       clearNotifications();
       $('#product-container').data('categoryid', categoryId);
+      history.pushState('products',null,'/categories/' + categoryId + '/products');
       displayProducts();
     });
   })
@@ -34,19 +36,27 @@ function boldCategory(categoryId) {
   $('.category-link[data-categoryid="' + categoryId + '"]').css('font-weight', 'bold');
 }
 
+function displayProduct() {
+  const url = location.href;
+  fetch(url)
+  .then(resp => resp.text())
+  .then(text => {
+    $('#product-container').html(text);
+    attachAddToCartListener();
+  });
+}
+
 function attachProductListeners() {
   const productCards = $('.product-card');
   productCards.each((index, productCard) => {
-    const productId = $(productCard).data('productid')
+    const productId = $(productCard).data('productid');
+    const categoryId = $('#product-container').data('categoryid');
+    const url = '/categories/' + categoryId + '/products/' + productId
     $(productCard).click((event) => {
       event.preventDefault();
       clearNotifications();
-      fetch('products/' + productId)
-      .then(resp => resp.text())
-      .then(text => {
-        $('#product-container').html(text);
-        attachAddToCartListener();
-      })
+      history.pushState('product', null, url);
+      displayProduct();
     })
   })
 }

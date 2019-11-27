@@ -1,6 +1,6 @@
 function fetchCart() {
-  const cartId = $('#cart-link').data('cartid');
-  fetch('carts/' + cartId )
+  const url = location.href
+  fetch(url)
   .then(resp => resp.text())
   .then(text => {
     $('#product-container').html(text);

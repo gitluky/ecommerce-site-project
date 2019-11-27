@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :carts, only: [:show]
 
-  resources :line_items, only: [:create]
+  resources :line_items, only: [:create, :show, :update]
 
   resources :categories do
     resources :products
