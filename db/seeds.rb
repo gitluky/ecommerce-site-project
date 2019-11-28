@@ -1,8 +1,5 @@
 require 'faker'
 
-Category.destroy_all
-Product.destroy_all
-
 #create categories
 20.times do
   category_name = Faker::Commerce.department(max: 1)

@@ -1,7 +1,6 @@
 $( document ).on('turbolinks:load', function() {
   if ($('body').data('controller') == 'home' && $('body').data('action') == 'index') {
     onLoadFunctions();
-
   }
   $(window).on('popstate', (e) => {
     if (!!location.href.match(/.*carts\/\d+/)) {
@@ -11,7 +10,7 @@ $( document ).on('turbolinks:load', function() {
     } else if (!!location.href.match(/.*categories\/\d+\/products\/\d+/)) {
       displayProduct();
     } else if (!!location.href.match(/.*users\/edit/)) {
-      fetchAcount();
+      fetchAccount();
     }
   })
 });

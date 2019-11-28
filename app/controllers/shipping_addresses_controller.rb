@@ -1,14 +1,10 @@
 class ShippingAddressesController < ApplicationController
 
-  def create
-
-  end
-
   def remove_address
-   user = current_user
-   address = ShippingAddress.find_by(id: params[:id])
-   user.shipping_addresses.delete(address)
-   render json: user
+     user = current_user
+     address = ShippingAddress.find_by(id: params[:id])
+     user.shipping_addresses.delete(address)
+     render json: user
   end
 
   def user_addresses

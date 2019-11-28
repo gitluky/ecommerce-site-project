@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_215209) do
   create_table "orders", force: :cascade do |t|
     t.integer "cart_id", null: false
     t.integer "shipping_address_id", null: false
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.string "status", default: "Created"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

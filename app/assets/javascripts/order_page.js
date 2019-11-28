@@ -23,7 +23,7 @@ function attachProcessOrderLinkListener(callback) {
             street_2: $('#order_shipping_address_attributes_street_2').val(),
             city: $('#order_shipping_address_attributes_city').val(),
             state: $('#order_shipping_address_attributes_state').val(),
-            zipcode: $('#order_shipping_address_attributes_zipcode').val()
+            zip_code: $('#order_shipping_address_attributes_zip_code').val()
           }
         }
       };
@@ -51,7 +51,8 @@ function processOrderFetchRequest(csrf_token, body) {
   })
   .then(resp => resp.json())
   .then((json) => {
-    const stripe = Stripe('pk_test_4MTh5FR8tF64XSKKPUJr0YxP002P8e3dSV');
+    const stripesk = $('#new_order').data('stripesk');
+    const stripe = Stripe(stripesk);
     stripe.redirectToCheckout({
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here

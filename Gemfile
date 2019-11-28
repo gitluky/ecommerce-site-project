@@ -37,7 +37,7 @@ gem 'fast_jsonapi'
 gem "mini_magick"
 gem 'pry'
 gem 'rack-cors'
-gem 'dotenv'
+gem 'dotenv-rails'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development, :test do

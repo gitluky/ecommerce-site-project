@@ -16,4 +16,18 @@ class Cart < ApplicationRecord
     "$#{'%.2f' % (total)}"
   end
 
+  def line_items_array
+    all_line_items = []
+    self.line_items.map do |line_item|
+      all_line_items << {
+        name: line_item.product.name,
+        description: line_item.product.description,
+        images: line_item.product.thumbnails,
+        amount: (line_item.product.price * 100).to_i,
+        currency: 'usd',
+        quantity: line_item.quantity,
+      }
+    end
+  end
+
 end

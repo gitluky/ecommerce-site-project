@@ -17,4 +17,11 @@ class User < ApplicationRecord
     end
   end
 
+  def add_shipping_address(address_obj)
+    if self.shipping_addresses.include?(address_obj)
+      self.shipping_addresses << address_obj
+      self.save
+    end
+  end
+
 end

@@ -8,26 +8,17 @@ class OrdersController < ApplicationController
   def new
     @order = current_user.orders.build(cart: current_cart)
     @order.build_shipping_address()
+    @stripe = ENV['STRIPE_SECRET_KEY']
   end
 
   def create
-
     order = current_user.orders.build(order_params)
     order.cart = current_cart
+    current_user.add_shipping_address(order.shipping_address)
     if order.save
-      all_line_items = []
-      current_cart.line_items.map do |line_item|
-        all_line_items << {
-          name: line_item.product.name,
-          description: line_item.product.description,
-          images: line_item.product.thumbnails,
-          amount: (line_item.product.price * 100).to_i,
-          currency: 'usd',
-          quantity: line_item.quantity,
-        }
-      end
+      all_line_items = current_cart.line_items_array
 
-      Stripe.api_key = 'sk_test_4KuSH7gN4wV0AjptW4RDlcji00Cq3wdxn6'
+      Stripe.api_key = ENV['STRIPE_PUBLISHABLE_KEY']
 
       session = Stripe::Checkout::Session.create(
         customer_email: current_user.email,

@@ -20,7 +20,7 @@
     <h4>Total: <%= @order.cart.formatted_total %></h4>
   <% end %>
 </div>
-<%= simple_form_for @order do |f| %>
+<%= simple_form_for @order, data: { stripesk: @stripe } do |f| %>
   <p><b>Choose Shipping Address: </b></p>
   <% @order.user.shipping_addresses.each do |address| %>
     <%= f.radio_button :shipping_address_id, address.id %> <%= address.full_address %><br/>
