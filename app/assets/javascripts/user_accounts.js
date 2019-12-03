@@ -26,6 +26,7 @@ function attachRemoveAddress() {
         .then(resp => resp.text())
         .then(text => {
           $('#address-list').html(text);
+          attachRemoveAddress();
         })
       })
     });
