@@ -6,7 +6,9 @@ class LineItemsController < ApplicationController
       session[:cart_id] = new_cart.id
     end
     @line_item = LineItem.update_or_create_to_cart(current_cart, line_item_params)
-    render json: CartSerializer.new(current_cart), status: 200
+    respond_to do |format|
+      format.json { render json: CartSerializer.new(current_cart), status: 200 }
+    end
   end
 
   def update
@@ -15,7 +17,9 @@ class LineItemsController < ApplicationController
     if @line_item.quantity == 0
       @line_item.destroy
     end
-    render json: CartSerializer.new(current_cart), status: 200
+    respond_to do |format|
+      format.json {render json: CartSerializer.new(current_cart), status: 200}
+    end
   end
 
   private

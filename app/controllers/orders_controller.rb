@@ -27,7 +27,9 @@ class OrdersController < ApplicationController
         success_url: 'http://localhost:3000/success?order_id=' + "#{order.id}",
         cancel_url: 'http://localhost:3000/cancelled',
       )
-      render json: session
+      respond_to do |format|
+        format.json { render json: session }
+      end
     end
   end
 
