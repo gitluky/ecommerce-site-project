@@ -1,5 +1,4 @@
 class OrdersController < ApplicationController
-  layout false
 
   def index
 
@@ -9,6 +8,10 @@ class OrdersController < ApplicationController
     @order = current_user.orders.build(cart: current_cart)
     @order.build_shipping_address()
     @stripe = ENV['STRIPE_SECRET_KEY']
+    respond_to do |format|
+      format.json { render 'orders/new.html.erb', layout: false }
+      format.any { redirect_to root_path}
+    end
   end
 
   def create
@@ -27,9 +30,6 @@ class OrdersController < ApplicationController
         success_url: 'http://localhost:3000/success?order_id=' + "#{order.id}",
         cancel_url: 'http://localhost:3000/cancelled',
       )
-      respond_to do |format|
-        format.json { render json: session }
-      end
     end
   end
 

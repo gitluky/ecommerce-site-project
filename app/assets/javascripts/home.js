@@ -6,7 +6,7 @@ $( document ).on('turbolinks:load', function() {
     attachSignUpLinkListener();
     attachSearchListener();
     attachMyAccountListener();
-    $('.login-link').length === 0 ? attachLogOutLinkListener() : attachLoginLinkListener();
+    $('.login-link').length === 0 ? attachLogOutLinkListener() : attachLoginLinkListener()
   }
   $(window).on('popstate', (e) => {
     if (!!location.href.match(/.*carts\/\d+/)) {
@@ -14,6 +14,7 @@ $( document ).on('turbolinks:load', function() {
     } else if (!!location.href.match(/.*categories\/\d+\/products$/)) {
       displayProducts();
     } else if (!!location.href.match(/.*categories\/\d+\/products\/\d+/)) {
+      debugger;
       displayProduct();
     } else if (!!location.href.match(/.*users\/edit/)) {
       fetchAccount();

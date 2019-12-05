@@ -22,12 +22,12 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   # DELETE /resource/sign_out
-  def destroy
+  # def destroy
     # if !!current_cart && !current_cart.checked_out
     #   current_cart.destroy
     # end
-    super
-  end
+  #   super
+  # end
 
   # protected
 
