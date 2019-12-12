@@ -31,6 +31,10 @@ class OrdersController < ApplicationController
         cancel_url: 'http://localhost:3000/cancelled',
       )
     end
+    respond_to do |format|
+      format.json { render json: session }
+      format.any { redirect_to root_path }
+    end
   end
 
 

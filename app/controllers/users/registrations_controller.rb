@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  clear_respond_to
   respond_to :json
   layout false
-  # before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -26,9 +26,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    resource_updated = update_resource(resource, account_update_params)
+    yield resource if block_given?
+    if resource_updated
+      set_flash_message_for_update(resource, prev_unconfirmed_email)
+      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+
+      render json: UserSerializer.new(resource)
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      render json: UserSerializer.new(resource)
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -44,7 +58,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
+
+  def update_resource(resource, params)
+    if resource.valid_password?(params[:current_password])
+      resource.update_with_password(params)
+    else
+      resource.errors.add(:current_password, params[:current_password].empty? ? :blank : :invalid)
+    end
+  end
+
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params
@@ -53,7 +76,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [shipping_addresses_attributes: [:id, :street_1, :street_2, :city, :state, :zip_code]])
+    devise_parameter_sanitizer.permit(:account_update, keys: [shipping_addresses_attributes: [:street_1, :street_2, :city, :state, :zip_code]])
   end
 
   # The path used after sign up.

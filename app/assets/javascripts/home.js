@@ -34,6 +34,7 @@ function reloadCsrfAndNavBar() {
     $('#nav').html(text);
     attachLogOutLinkListener();
     attachCartLinkListener();
+    attachMyAccountListener();
   })
   fetch('/csrf')
   .then(resp => resp.text())

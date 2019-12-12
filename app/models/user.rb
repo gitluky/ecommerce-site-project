@@ -9,11 +9,9 @@ class User < ApplicationRecord
   has_and_belongs_to_many :shipping_addresses
   has_many :orders
 
-  def shipping_addresses_attributes=(shipping_addresses)
-    shipping_addresses.each do |k,v|
-      if v[:street_1] != ''
-        self.shipping_addresses << ShippingAddress.find_or_create_by(street_1: v[:street_1], street_2: v[:street_2], city: v[:city], state: v[:state], zip_code: v[:zip_code])
-      end
+  def shipping_addresses_attributes=(shipping_address)
+    if shipping_address[:street_1] != ''
+      self.shipping_addresses << ShippingAddress.find_or_create_by(street_1: shipping_address[:street_1], street_2: shipping_address['street_2'], city: shipping_address[:city], state: shipping_address[:state], zip_code: shipping_address[:zip_code])
     end
   end
 
