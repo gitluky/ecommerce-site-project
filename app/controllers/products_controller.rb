@@ -9,6 +9,11 @@ class ProductsController < ApplicationController
     end
   end
 
+  def search
+    @products = Product.where("products.name LIKE ?", "%#{params[:keywords]}%")
+    render json: ProductSerializer.new(@products)
+  end
+
   def show
     @product = Product.find_by(id: params[:id])
     @line_item = LineItem.new(product: @product)
@@ -18,9 +23,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  def search
-    @products = Product.where("products.name LIKE ?", "%#{params[:search_string]}%")
-    render json: ProductSerializer.new(@products)
-  end
+
 
 end

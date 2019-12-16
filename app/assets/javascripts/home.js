@@ -11,6 +11,8 @@ $( document ).on('turbolinks:load', function() {
   $(window).on('popstate', (e) => {
     if (!!location.href.match(/.*carts\/\d+/)) {
       fetchCart();
+    } else if (!!location.href.match(/.*search\?keywords=/)) {
+      getSearchResults();
     } else if (!!location.href.match(/.*categories\/\d+\/products$/)) {
       displayProducts();
     } else if (!!location.href.match(/.*categories\/\d+\/products\/\d+/)) {

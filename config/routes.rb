@@ -23,8 +23,9 @@ Rails.application.routes.draw do
     resources :products
   end
 
+  get '/products/search', to: 'products#search'
   resources :products, only: [:index, :show]
-  post '/products/search', to: 'products#search'
+
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
