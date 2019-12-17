@@ -38,6 +38,7 @@ function reloadCsrfAndNavBar() {
     attachLogOutLinkListener();
     attachCartLinkListener();
     attachMyAccountListener();
+    attachSearchListener();
   })
   fetch('/csrf')
   .then(resp => resp.text())

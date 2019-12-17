@@ -11,7 +11,10 @@ class ProductsController < ApplicationController
 
   def search
     @products = Product.where("products.name LIKE ?", "%#{params[:keywords]}%")
-    render json: ProductSerializer.new(@products)
+    respond_to do |format|
+      format.json { render json: ProductSerializer.new(@products) }
+      format.any { redirect_to root_path}
+    end
   end
 
   def show
