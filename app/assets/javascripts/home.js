@@ -9,6 +9,7 @@ $( document ).on('turbolinks:load', function() {
     $('.login-link').length === 0 ? attachLogOutLinkListener() : attachLoginLinkListener();
   }
   $(window).on('popstate', (e) => {
+    reloadCsrfAndNavBar();
     if (!!location.href.match(/.*carts\/\d+/)) {
       fetchCart();
     } else if (!!location.href.match(/.*search\?keywords=/)) {
