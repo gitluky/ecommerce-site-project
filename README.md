@@ -2,6 +2,8 @@ Ecommerce Site built with JS and Rails
 
 This is a Single Page Application where a user can sign up, log in, view products available in the database, add products to their cart and checkout their order.
 
+Demo: https://vimeo.com/380126898
+
 Pre-requisites:
 
 Ruby 2.6.0 or higher
